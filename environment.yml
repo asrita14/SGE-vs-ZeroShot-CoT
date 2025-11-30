@@ -1,0 +1,17 @@
+name: prompting-env
+channels:
+  - defaults
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.10
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pip
+  - pip:
+      - transformers
+      - datasets
+      - accelerate
+      - tqdm
+      - numpy
