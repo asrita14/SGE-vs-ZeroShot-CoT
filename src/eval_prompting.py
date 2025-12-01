@@ -3,6 +3,9 @@ Evaluate Zero-Shot, Few-Shot, CoT, and SGE on:
 - GSM8K (math word problems)
 - BoolQ (yes/no QA)
 - CommonsenseQA (multiple choice)
+
+This script supports multiple runs via --run_name, so you can store
+multiple result files per dataset for analysis.
 """
 
 import json
@@ -14,11 +17,10 @@ from src.prompting.baselines import PromptingBaselines
 from src.prompting.sge_pipeline import SelfGeneratedExamples
 
 
-def evaluate_gsm8k(baseline, sge, num_examples=30):
+def evaluate_gsm8k(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
     """Evaluate all prompting strategies on GSM8K."""
     gsm = load_dataset("gsm8k", "main")["test"].select(range(num_examples))
 
-    # Few-shot examples for GSM8K
     few_shot_examples = [
         ("Tom has 8 apples and eats 3. How many left?", "5"),
         ("What is 12 + 7?", "19"),
@@ -27,14 +29,17 @@ def evaluate_gsm8k(baseline, sge, num_examples=30):
 
     results = []
 
-    for sample in tqdm(gsm, desc="Evaluating GSM8K"):
+    for sample in tqdm(gsm, desc=f"Evaluating GSM8K ({run_name})"):
         q = sample["question"]
         a = sample["answer"]
 
         zs = baseline.zero_shot(q)
         fs = baseline.few_shot(q, few_shot_examples)
         cot = baseline.cot(q)
-        sge_ans = sge.infer_with_sge(q, "Solve grade-school math word problems.")
+        sge_ans = sge.infer_with_sge(
+            q,
+            "Solve grade-school math word problems."
+        )
 
         results.append({
             "dataset": "gsm8k",
@@ -46,19 +51,28 @@ def evaluate_gsm8k(baseline, sge, num_examples=30):
             "sge": sge_ans,
         })
 
-    out_path = "results/metrics/gsm8k_results.json"
+    payload = {
+        "config": {
+            "task": "gsm8k",
+            "run_name": run_name,
+            "num_examples": num_examples,
+            "sge_k": sge_k,
+            "model_name": baseline.model_name if hasattr(baseline, "model_name") else "unknown",
+        },
+        "results": results,
+    }
+
+    out_path = f"results/metrics/gsm8k_{run_name}.json"
     with open(out_path, "w") as f:
-        json.dump(results, f, indent=2)
+        json.dump(payload, f, indent=2)
 
     print(f"Saved GSM8K results → {out_path}")
 
 
-def evaluate_boolq(baseline, sge, num_examples=30):
+def evaluate_boolq(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
     """Evaluate all prompting strategies on BoolQ (yes/no QA)."""
     boolq = load_dataset("boolq")["validation"].select(range(num_examples))
 
-    # Few-shot examples for BoolQ
-    # We structure as (passage + question, answer)
     few_shot_examples = [
         (
             "Passage: The Earth orbits the Sun.\nQuestion: Is the Earth a planet?\nAnswer yes or no.",
@@ -77,13 +91,12 @@ def evaluate_boolq(baseline, sge, num_examples=30):
 
     results = []
 
-    for sample in tqdm(boolq, desc="Evaluating BoolQ"):
+    for sample in tqdm(boolq, desc=f"Evaluating BoolQ ({run_name})"):
         question = sample["question"]
         passage = sample["passage"]
-        gold_bool = sample["answer"]  # True/False
+        gold_bool = sample["answer"]
         gold = "yes" if gold_bool else "no"
 
-        # We include passage + question in the prompt
         q_text = (
             f"Passage: {passage}\n"
             f"Question: {question}\n"
@@ -109,19 +122,28 @@ def evaluate_boolq(baseline, sge, num_examples=30):
             "sge": sge_ans,
         })
 
-    out_path = "results/metrics/boolq_results.json"
+    payload = {
+        "config": {
+            "task": "boolq",
+            "run_name": run_name,
+            "num_examples": num_examples,
+            "sge_k": sge_k,
+            "model_name": baseline.model_name if hasattr(baseline, "model_name") else "unknown",
+        },
+        "results": results,
+    }
+
+    out_path = f"results/metrics/boolq_{run_name}.json"
     with open(out_path, "w") as f:
-        json.dump(results, f, indent=2)
+        json.dump(payload, f, indent=2)
 
     print(f"Saved BoolQ results → {out_path}")
 
 
-def evaluate_csqa(baseline, sge, num_examples=30):
+def evaluate_csqa(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
     """Evaluate all prompting strategies on CommonsenseQA (multiple choice)."""
     csqa = load_dataset("commonsense_qa")["validation"].select(range(num_examples))
 
-    # Few-shot examples for CSQA
-    # We use letter options A/B/C/D/E
     few_shot_examples = [
         (
             "Question: Where would you store milk to keep it cold?\n"
@@ -147,13 +169,12 @@ def evaluate_csqa(baseline, sge, num_examples=30):
 
     results = []
 
-    for sample in tqdm(csqa, desc="Evaluating CommonsenseQA"):
+    for sample in tqdm(csqa, desc=f"Evaluating CommonsenseQA ({run_name})"):
         question = sample["question"]
-        choices = sample["choices"]["text"]   # list of answer texts
-        labels = sample["choices"]["label"]   # list of labels like ["A", "B", ...]
-        gold_label = sample["answerKey"]      # correct label like "C"
+        choices = sample["choices"]["text"]
+        labels = sample["choices"]["label"]
+        gold_label = sample["answerKey"]
 
-        # Build multiple-choice prompt
         options_str_lines = []
         for label, choice_text in zip(labels, choices):
             options_str_lines.append(f"{label}) {choice_text}")
@@ -184,9 +205,20 @@ def evaluate_csqa(baseline, sge, num_examples=30):
             "sge": sge_ans,
         })
 
-    out_path = "results/metrics/csqa_results.json"
+    payload = {
+        "config": {
+            "task": "commonsense_qa",
+            "run_name": run_name,
+            "num_examples": num_examples,
+            "sge_k": sge_k,
+            "model_name": baseline.model_name if hasattr(baseline, "model_name") else "unknown",
+        },
+        "results": results,
+    }
+
+    out_path = f"results/metrics/csqa_{run_name}.json"
     with open(out_path, "w") as f:
-        json.dump(results, f, indent=2)
+        json.dump(payload, f, indent=2)
 
     print(f"Saved CommonsenseQA results → {out_path}")
 
@@ -206,19 +238,36 @@ def main():
         default=30,
         help="How many examples to evaluate (per dataset).",
     )
+    parser.add_argument(
+        "--run_name",
+        type=str,
+        default="debug",
+        help="Name suffix for this run (used in output filename).",
+    )
+    parser.add_argument(
+        "--sge_k",
+        type=int,
+        default=3,
+        help="(for future use) number of self-generated examples to use.",
+    )
     args = parser.parse_args()
 
     model_name = "google/flan-t5-base"
     print(f"Loading model: {model_name}")
     baseline = PromptingBaselines(model_name)
-    sge = SelfGeneratedExamples(model_name)
+    # store model_name for logging
+    baseline.model_name = model_name
+    sge = SelfGeneratedExamples(model_name, k=args.sge_k)
 
     if args.task == "gsm8k":
-        evaluate_gsm8k(baseline, sge, num_examples=args.num_examples)
+        evaluate_gsm8k(baseline, sge, num_examples=args.num_examples,
+                       sge_k=args.sge_k, run_name=args.run_name)
     elif args.task == "boolq":
-        evaluate_boolq(baseline, sge, num_examples=args.num_examples)
+        evaluate_boolq(baseline, sge, num_examples=args.num_examples,
+                       sge_k=args.sge_k, run_name=args.run_name)
     elif args.task == "csqa":
-        evaluate_csqa(baseline, sge, num_examples=args.num_examples)
+        evaluate_csqa(baseline, sge, num_examples=args.num_examples,
+                      sge_k=args.sge_k, run_name=args.run_name)
     else:
         raise ValueError(f"Unknown task: {args.task}")
 
