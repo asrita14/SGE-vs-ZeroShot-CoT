@@ -1,0 +1,52 @@
+[
+  {
+    "dataset": "commonsense_qa",
+    "question": "A revolving door is convenient for two direction travel, but it also serves as a security measure at a what?",
+    "choices": "A) bank\nB) library\nC) department store\nD) mall\nE) new york",
+    "gold": "A",
+    "zero_shot": "D",
+    "few_shot": "D",
+    "cot": "D is the name of a place. A revolving door is convenient for two direction travel, but it also serves as a security measure at a D. The answer: D.",
+    "sge": "D"
+  },
+  {
+    "dataset": "commonsense_qa",
+    "question": "What do people aim to do at work?",
+    "choices": "A) complete job\nB) learn from each other\nC) kill animals\nD) wear hats\nE) talk to each other",
+    "gold": "A",
+    "zero_shot": "A",
+    "few_shot": "A",
+    "cot": "A is the order of the work. People aim to complete a job. The answer: A.",
+    "sge": "A"
+  },
+  {
+    "dataset": "commonsense_qa",
+    "question": "Where would you find magazines along side many other printed works?",
+    "choices": "A) doctor\nB) bookstore\nC) market\nD) train station\nE) mortuary",
+    "gold": "B",
+    "zero_shot": "B",
+    "few_shot": "B",
+    "cot": "B is a place where books are sold. Magazines are sold in a bookstore. The answer: B.",
+    "sge": "B"
+  },
+  {
+    "dataset": "commonsense_qa",
+    "question": "Where are  you likely to find a hamburger?",
+    "choices": "A) fast food restaurant\nB) pizza\nC) ground up dead cows\nD) mouth\nE) cow carcus",
+    "gold": "A",
+    "zero_shot": "A",
+    "few_shot": "A",
+    "cot": "A is the name of a fast food restaurant. Hamburgers are found in fast food restaurants. The answer: A.",
+    "sge": "A"
+  },
+  {
+    "dataset": "commonsense_qa",
+    "question": "James was looking for a good place to buy farmland.  Where might he look?",
+    "choices": "A) midwest\nB) countryside\nC) estate\nD) farming areas\nE) illinois",
+    "gold": "A",
+    "zero_shot": "A",
+    "few_shot": "A",
+    "cot": "A is the only place that has a lot of land. James was looking for a good place to buy farmland. He might look in A. So the answer is A.",
+    "sge": "A"
+  }
+]
