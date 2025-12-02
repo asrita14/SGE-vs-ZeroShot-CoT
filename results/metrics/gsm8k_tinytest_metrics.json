@@ -1,0 +1,33 @@
+{
+  "task": "gsm8k",
+  "run_name": "tinytest",
+  "config": {
+    "task": "gsm8k",
+    "run_name": "tinytest",
+    "num_examples": 5,
+    "sge_k": 3,
+    "model_name": "google/flan-t5-base"
+  },
+  "metrics": {
+    "zero_shot": {
+      "num_evaluated": 5,
+      "numeric_em": 0.6,
+      "mae": 6.0
+    },
+    "few_shot": {
+      "num_evaluated": 5,
+      "numeric_em": 0.6,
+      "mae": 6.0
+    },
+    "cot": {
+      "num_evaluated": 5,
+      "numeric_em": 0.6,
+      "mae": 16.6
+    },
+    "sge": {
+      "num_evaluated": 5,
+      "numeric_em": 0.6,
+      "mae": 6.0
+    }
+  }
+}
