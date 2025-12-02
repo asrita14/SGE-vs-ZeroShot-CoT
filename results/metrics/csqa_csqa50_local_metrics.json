@@ -1,0 +1,37 @@
+{
+  "task": "csqa",
+  "run_name": "csqa50_local",
+  "config": {
+    "task": "commonsense_qa",
+    "run_name": "csqa50_local",
+    "num_examples": 50,
+    "sge_k": 3,
+    "model_name": "google/flan-t5-base"
+  },
+  "metrics": {
+    "zero_shot": {
+      "num_examples": 50,
+      "num_covered": 50,
+      "coverage": 1.0,
+      "accuracy": 0.84
+    },
+    "few_shot": {
+      "num_examples": 50,
+      "num_covered": 50,
+      "coverage": 1.0,
+      "accuracy": 0.8
+    },
+    "cot": {
+      "num_examples": 50,
+      "num_covered": 50,
+      "coverage": 1.0,
+      "accuracy": 0.72
+    },
+    "sge": {
+      "num_examples": 50,
+      "num_covered": 50,
+      "coverage": 1.0,
+      "accuracy": 0.82
+    }
+  }
+}

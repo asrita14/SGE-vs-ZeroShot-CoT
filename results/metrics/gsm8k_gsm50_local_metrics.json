@@ -1,0 +1,33 @@
+{
+  "task": "gsm8k",
+  "run_name": "gsm50_local",
+  "config": {
+    "task": "gsm8k",
+    "run_name": "gsm50_local",
+    "num_examples": 50,
+    "sge_k": 3,
+    "model_name": "google/flan-t5-base"
+  },
+  "metrics": {
+    "zero_shot": {
+      "num_evaluated": 50,
+      "numeric_em": 0.46,
+      "mae": 59.75
+    },
+    "few_shot": {
+      "num_evaluated": 50,
+      "numeric_em": 0.46,
+      "mae": 67.52
+    },
+    "cot": {
+      "num_evaluated": 50,
+      "numeric_em": 0.46,
+      "mae": 64.12
+    },
+    "sge": {
+      "num_evaluated": 50,
+      "numeric_em": 0.44,
+      "mae": 76.45
+    }
+  }
+}
