@@ -1,0 +1,37 @@
+{
+  "task": "boolq",
+  "run_name": "bool200_k5",
+  "config": {
+    "task": "boolq",
+    "run_name": "bool200_k5",
+    "num_examples": 200,
+    "sge_k": 5,
+    "model_name": "google/flan-t5-base"
+  },
+  "metrics": {
+    "zero_shot": {
+      "num_examples": 200,
+      "num_covered": 200,
+      "coverage": 1.0,
+      "accuracy": 0.765
+    },
+    "few_shot": {
+      "num_examples": 200,
+      "num_covered": 200,
+      "coverage": 1.0,
+      "accuracy": 0.755
+    },
+    "cot": {
+      "num_examples": 200,
+      "num_covered": 190,
+      "coverage": 0.95,
+      "accuracy": 0.6578947368421053
+    },
+    "sge": {
+      "num_examples": 200,
+      "num_covered": 200,
+      "coverage": 1.0,
+      "accuracy": 0.765
+    }
+  }
+}

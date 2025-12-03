@@ -248,16 +248,20 @@ def main():
         "--sge_k",
         type=int,
         default=3,
-        help="(for future use) number of self-generated examples to use.",
+        help="Number of self-generated examples to use.",
+    )
+    parser.add_argument(
+        "--model_name",
+        type=str,
+        default="google/flan-t5-base",
+        help="HuggingFace model name to use (e.g., google/flan-t5-base).",
     )
     args = parser.parse_args()
 
-    model_name = "google/flan-t5-base"
-    print(f"Loading model: {model_name}")
-    baseline = PromptingBaselines(model_name)
-    # store model_name for logging
-    baseline.model_name = model_name
-    sge = SelfGeneratedExamples(model_name, k=args.sge_k)
+    print(f"Loading model: {args.model_name}")
+    baseline = PromptingBaselines(args.model_name)
+    baseline.model_name = args.model_name  # for logging
+    sge = SelfGeneratedExamples(args.model_name, k=args.sge_k)
 
     if args.task == "gsm8k":
         evaluate_gsm8k(baseline, sge, num_examples=args.num_examples,
