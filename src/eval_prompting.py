@@ -36,6 +36,7 @@ def evaluate_gsm8k(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
         zs = baseline.zero_shot(q)
         fs = baseline.few_shot(q, few_shot_examples)
         cot = baseline.cot(q)
+        cot_sc = baseline.cot_self_consistency(q, n=5, temperature=0.7)
         sge_ans = sge.infer_with_sge(
             q,
             "Solve grade-school math word problems."
@@ -48,8 +49,10 @@ def evaluate_gsm8k(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
             "zero_shot": zs,
             "few_shot": fs,
             "cot": cot,
+            "cot_sc": cot_sc,   # NEW
             "sge": sge_ans,
         })
+
 
     payload = {
         "config": {
@@ -106,6 +109,7 @@ def evaluate_boolq(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
         zs = baseline.zero_shot(q_text)
         fs = baseline.few_shot(q_text, few_shot_examples)
         cot = baseline.cot(q_text)
+        cot_sc = baseline.cot_self_consistency(q_text, n=5, temperature=0.7)
         sge_ans = sge.infer_with_sge(
             q_text,
             "Read the passage and answer the yes/no question."
@@ -119,8 +123,10 @@ def evaluate_boolq(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
             "zero_shot": zs,
             "few_shot": fs,
             "cot": cot,
+            "cot_sc": cot_sc,   # NEW
             "sge": sge_ans,
         })
+
 
     payload = {
         "config": {
@@ -189,6 +195,7 @@ def evaluate_csqa(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
         zs = baseline.zero_shot(q_text)
         fs = baseline.few_shot(q_text, few_shot_examples)
         cot = baseline.cot(q_text)
+        cot_sc = baseline.cot_self_consistency(q_text, n=5, temperature=0.7)
         sge_ans = sge.infer_with_sge(
             q_text,
             "Answer commonsense multiple choice questions by selecting the correct option letter."
@@ -202,8 +209,11 @@ def evaluate_csqa(baseline, sge, num_examples=30, sge_k=3, run_name="default"):
             "zero_shot": zs,
             "few_shot": fs,
             "cot": cot,
+            "cot_sc": cot_sc,   # NEW
             "sge": sge_ans,
         })
+
+
 
     payload = {
         "config": {

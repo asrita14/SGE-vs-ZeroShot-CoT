@@ -1,0 +1,43 @@
+{
+  "task": "csqa",
+  "run_name": "csqa200_filtered_sc",
+  "config": {
+    "task": "commonsense_qa",
+    "run_name": "csqa200_filtered_sc",
+    "num_examples": 200,
+    "sge_k": 3,
+    "model_name": "google/flan-t5-base"
+  },
+  "metrics": {
+    "zero_shot": {
+      "num_examples": 200,
+      "num_covered": 200,
+      "coverage": 1.0,
+      "accuracy": 0.76
+    },
+    "few_shot": {
+      "num_examples": 200,
+      "num_covered": 200,
+      "coverage": 1.0,
+      "accuracy": 0.735
+    },
+    "cot": {
+      "num_examples": 200,
+      "num_covered": 200,
+      "coverage": 1.0,
+      "accuracy": 0.695
+    },
+    "cot_sc": {
+      "num_examples": 200,
+      "num_covered": 200,
+      "coverage": 1.0,
+      "accuracy": 0.705
+    },
+    "sge": {
+      "num_examples": 200,
+      "num_covered": 200,
+      "coverage": 1.0,
+      "accuracy": 0.72
+    }
+  }
+}

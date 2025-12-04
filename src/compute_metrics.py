@@ -101,11 +101,32 @@ def extract_choice_label(pred: str) -> Optional[str]:
 
     return None
 
+def get_strategies(results: List[Dict[str, Any]]) -> list:
+    """
+    Determine which strategies are present in the results.
+    This lets us support new strategies (cot_sc, few_shot_data, etc)
+    without hard-coding them everywhere.
+    """
+    # candidates = superset of all strategies we might log
+    candidates = [
+        "zero_shot",
+        "few_shot",
+        "few_shot_data",
+        "cot",
+        "cot_sc",
+        "sge",
+    ]
+    present = set()
+    for r in results:
+        for c in candidates:
+            if c in r:
+                present.add(c)
+    # preserve order of candidates, keep only those actually present
+    return [c for c in candidates if c in present]
 
 # =========================
 # GSM8K metrics
 # =========================
-
 def compute_gsm8k_metrics(results: List[Dict[str, Any]]) -> Dict[str, Dict[str, float]]:
     """
     Compute numeric EM and MAE for each prompting strategy on GSM8K.
@@ -113,7 +134,7 @@ def compute_gsm8k_metrics(results: List[Dict[str, Any]]) -> Dict[str, Dict[str, 
     We treat a prediction as correct (EM) if the extracted number equals
     the number extracted from the gold answer.
     """
-    strategies = ["zero_shot", "few_shot", "cot", "sge"]
+    strategies = get_strategies(results)
     metrics = {}
 
     for strat in strategies:
@@ -162,7 +183,7 @@ def compute_boolq_metrics(results: List[Dict[str, Any]]) -> Dict[str, Dict[str, 
     Compute accuracy for each prompting strategy on BoolQ.
     Gold labels are 'yes'/'no', predictions are free-form.
     """
-    strategies = ["zero_shot", "few_shot", "cot", "sge"]
+    strategies = get_strategies(results)
     metrics = {}
 
     for strat in strategies:
@@ -204,7 +225,7 @@ def compute_csqa_metrics(results: List[Dict[str, Any]]) -> Dict[str, Dict[str, f
     Compute multiple-choice accuracy for each prompting strategy on CommonsenseQA.
     Gold labels are 'A'-'E', predictions are free-form.
     """
-    strategies = ["zero_shot", "few_shot", "cot", "sge"]
+    strategies = get_strategies(results)
     metrics = {}
 
     for strat in strategies:
@@ -235,6 +256,7 @@ def compute_csqa_metrics(results: List[Dict[str, Any]]) -> Dict[str, Dict[str, f
         }
 
     return metrics
+
 
 
 # =========================
