@@ -85,6 +85,20 @@ SGE-vs-ZeroShot-CoT/
 | **CSQA**  | Zero-shot    | Strong commonsense priors already in FLAN-T5         |
 | **GSM8K** | CoT-SC       | Best stability; large MAE reduction                  |
 
+# Reproducibility Checklist
+
+✔ Uses only HF datasets
+✔ Single model class (FLAN-T5)
+✔ All outputs saved as JSON
+✔ Metrics reproducible by one command
+✔ Figures reproducible by one command
+
+3 Acknowledgements
+
+NYU DS-GA 1011 — Natural Language Processing
+HuggingFace Transformers
+FLAN-T5 Instruction-Tuned Model
+
 # Contact
 
 For issues or reproducibility questions, open a GitHub issue.
