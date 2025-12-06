@@ -87,17 +87,17 @@ SGE-vs-ZeroShot-CoT/
 
 # Reproducibility Checklist
 
-✔ Uses only HF datasets
-✔ Single model class (FLAN-T5)
-✔ All outputs saved as JSON
-✔ Metrics reproducible by one command
-✔ Figures reproducible by one command
+- **Uses only HF datasets**
+- **Single model class (FLAN-T5)**
+- **All outputs saved as JSON**
+- **Metrics reproducible by one command**
+- **Figures reproducible by one command**
 
-3 Acknowledgements
+# Acknowledgements
 
-NYU DS-GA 1011 — Natural Language Processing
-HuggingFace Transformers
-FLAN-T5 Instruction-Tuned Model
+- **NYU DS-GA 1011 — Natural Language Processing**
+- **HuggingFace Transformers**
+- **FLAN-T5 Instruction-Tuned Model**
 
 # Contact
 
