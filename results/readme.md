@@ -10,9 +10,9 @@ This directory contains all experiment outputs: raw predictions, metric summarie
 Contains two types of JSON files:
 
 ### 1️⃣ Raw evaluation outputs  
-
+```
 <task>_<run_name>.json
-
+```
 Each entry includes:
 - input example  
 - gold label  
@@ -24,7 +24,10 @@ Each entry includes:
   - sge  
 
 ### 2️⃣ Metric summaries  
+
+```
 <task>_<run_name>_metrics.json
+```
 
 Metrics:
 - GSM8K → EM & MAE  
