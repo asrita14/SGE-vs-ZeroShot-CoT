@@ -1,48 +1,48 @@
-<!-- PROJECT HEADER -->
 <p align="center">
   <img src="https://img.shields.io/badge/NLP-Project-9146FF?style=for-the-badge">
   <img src="https://img.shields.io/badge/Transformers-FLAN--T5-blue?style=for-the-badge">
   <img src="https://img.shields.io/badge/Status-Complete-brightgreen?style=for-the-badge">
-  <br><br>
-  <img src="https://img.shields.io/badge/Python-3.10-yellow?style=flat-square">
-  <img src="https://img.shields.io/badge/License-MIT-purple?style=flat-square">
 </p>
 
-<h1 align="center">🤖 Self-Generated Examples vs Zero-shot and Chain-of-Thought Prompting</h1>
+<h1 align="center">🤖 Self-Generated Examples vs Zero-shot and CoT Prompting</h1>
 
 <p align="center">
-A comparative study of prompting strategies across GSM8K, BoolQ, and CommonsenseQA using FLAN-T5.<br>
-This repo contains the **full codebase**, **evaluation pipeline**, **SGE filtering method**, and **all plots & results** used in the project.
+A comparative study of prompting strategies across several reasoning benchmarks using FLAN-T5.
 </p>
 
 ---
 
-# Overview
+# 🌟 Overview
 
-This project systematically evaluates five prompting paradigms:
+This project evaluates how different prompting strategies behave across reasoning tasks:
 
-### **Prompting Strategies**
-- **Zero-shot**
-- **Few-shot (manual)**
-- **Chain-of-Thought (CoT)**
-- **CoT Self-Consistency (CoT-SC)**
-- **Self-Generated Examples (SGE)**
-- **Filtered SGE (our contribution)** ✔️
+### **Prompting Methods**
+- **Zero-shot**  
+- **Few-shot**, manually written  
+- **Chain-of-Thought (CoT)**  
+- **CoT Self-Consistency (CoT-SC)**  
+- **Self-Generated Examples (SGE)**  
+- **Filtered SGE (our new method)** ✔️
 
-### **Benchmarks**
-- **GSM8K** – math word problems  
-- **BoolQ** – yes/no reading comprehension  
-- **CommonsenseQA** – 5-way multiple-choice  
+### **Datasets**
+- **GSM8K** — math word problems  
+- **BoolQ** — yes/no QA  
+- **CommonsenseQA** — 5-way multiple choice  
+
+We measure performance, stability, and behavior across:
+- **task types**
+- **difficulty levels (easy vs hard)**  
+- **SGE quality (filtered vs unfiltered)**
 
 ---
 
-#  What We Contribute
-- A complete prompting evaluation framework  
-- Implementation of **CoT-Self-Consistency**  
-- A novel **SGE-Filtering function** improving stability  
-- **Difficulty-aware analysis** (easy vs hard subsets)  
-- A reproducibility-focused, simple CLI pipeline  
-- Fully-generated plots for poster/report  
+#  Key Contributions
+
+✔️ Introduce **Filtered SGE**, a scoring-based filtering mechanism for synthetic examples  
+✔️ Add **CoT-Self-Consistency** for more stable math reasoning  
+✔️ Design a unified evaluation pipeline  
+✔️ Provide difficulty-aware analysis across datasets  
+✔️ Produce reproducible metrics and plots  
 
 ---
 
@@ -55,95 +55,36 @@ conda create -n prompting-env python=3.10 -y
 conda activate prompting-env
 pip install -r requirements.txt
 ```
-
-If missing, install manually:
-```bash
-pip install transformers datasets torch tqdm matplotlib
-```
-Running Experiments
-Run both baselines + SGE on any dataset
-```bash
-python -m src.eval_prompting \
-  --task boolq \
-  --num_examples 200 \
-  --run_name bool200_filtered_sc \
-  --sge_k 3
-```
-
-Outputs a file:
-
-results/metrics/boolq_bool200_filtered_sc.json
-
-#To Compute metrics:
-```bash
-python -m src.compute_metrics --task boolq --run_name bool200_filtered_sc
-```
-
-Outputs:
-results/metrics/boolq_bool200_filtered_sc_metrics.json
-
-Difficulty analysis (easy vs hard):
-
-python -m src.difficulty_analysis
-
-Generate all plots for poster/report
-python make_plots.py
-
-
-Plots saved to:
-results/figs/
-
 # Repository Structure
+```graphql
 SGE-vs-ZeroShot-CoT/
 │
-├── README.md                # Main project README
-├── make_plots.py            # All plots used in the poster
-├── make_difficulty_heatmaps.py
+├── README.md                 # High-level overview (this file)
+├── make_plots.py             # Generates all project figures
 │
 ├── src/
-│   ├── README.md
-│   ├── eval_prompting.py              # Run all prompting strategies
-│   ├── compute_metrics.py             # Compute dataset metrics
-│   ├── difficulty_analysis.py         # Easy vs Hard evaluation
+│   ├── README.md             # How to run experiments, metrics, analysis
+│   ├── eval_prompting.py     # Main evaluation driver
+│   ├── compute_metrics.py    # Metrics computation
+│   ├── difficulty_analysis.py# Easy/Hard tagging + analysis
 │   └── prompting/
-│       ├── README.md
-│       ├── baselines.py               # Zero-shot, Few-shot, CoT, CoT-SC
-│       └── sge_pipeline.py            # SGE & Filtered SGE pipeline
+│       ├── README.md         # Explanation of prompting methods
+│       ├── baselines.py      # Zero-shot, Few-shot, CoT, CoT-SC
+│       └── sge_pipeline.py   # SGE + SGE filtering implementation
 │
 └── results/
-    ├── README.md
-    ├── metrics/                       # Raw outputs + metric summaries
-    └── figs/                          # All charts
+    ├── README.md             # What the JSONs / figs mean
+    ├── metrics/              # Raw & summarized JSON outputs
+    └── figs/                 # Plots used in report + poster
+```
+# High-Level Results
 
-#Method Diagram
-<p align="center"> <img width="600" src="https://github.com/asrita14/SGE-vs-ZeroShot-CoT/assets/diagram-placeholder.png" alt="SGE Diagram (replace this with your final diagram)"> </p>
-
-#SGE-Filtered Pipeline
-
-Task Description → Generate Synthetic Q/A → Score Examples → Keep Top-k → Build Few-shot Prompt → Predict Answer
-
-#Key Results (Summary)
-Dataset	Best Method	Observation
-BoolQ	SGE-Filtered	Slightly > Zero-shot; CoT hurts performance.
-CSQA	Zero-shot	Strong priors already inside FLAN-T5.
-GSM8K	CoT-SC	Best stability; reduces error by 50%+.
-
-#Reproducibility Checklist
-
-✔ Uses only HF datasets
-✔ Single model class (FLAN-T5)
-✔ All outputs saved as JSON
-✔ Metrics reproducible by one command
-✔ Figures reproducible by one command
-
-#Acknowledgements:
-
-NYU DS-GA 1011 — Natural Language Processing
-
-HuggingFace Transformers
-
-FLAN-T5 Instruction-Tuned Model
+| Dataset   | Best Method  | Observation                                          |
+| --------- | ------------ | ---------------------------------------------------- |
+| **BoolQ** | SGE-Filtered | Slightly improves over Zero-shot; CoT harms accuracy |
+| **CSQA**  | Zero-shot    | Strong commonsense priors already in FLAN-T5         |
+| **GSM8K** | CoT-SC       | Best stability; large MAE reduction                  |
 
 # Contact
 
-For questions or issues, open a GitHub Issue.
+For issues or reproducibility questions, open a GitHub issue.
