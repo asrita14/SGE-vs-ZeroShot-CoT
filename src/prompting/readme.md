@@ -4,7 +4,7 @@ This module defines all prompting strategies used in the project.
 
 ---
 
-#  baselines.py
+## baselines.py
 
 Implements:
 
@@ -26,7 +26,7 @@ Improves stability on GSM8K.
 
 ---
 
-# sge_pipeline.py
+## sge_pipeline.py
 
 Implements Self-Generated Examples (SGE) + our new **Filtered SGE**.
 
