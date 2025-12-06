@@ -46,7 +46,7 @@ This project systematically evaluates five prompting paradigms:
 
 ---
 
-# 🔧 Installation
+# Installation
 
 ```bash
 git clone https://github.com/asrita14/SGE-vs-ZeroShot-CoT.git
@@ -54,32 +54,36 @@ cd SGE-vs-ZeroShot-CoT
 conda create -n prompting-env python=3.10 -y
 conda activate prompting-env
 pip install -r requirements.txt
+```
+
 If missing, install manually:
-
+```bash
 pip install transformers datasets torch tqdm matplotlib
-
+```
 Running Experiments
 Run both baselines + SGE on any dataset
+```bash
 python -m src.eval_prompting \
   --task boolq \
   --num_examples 200 \
   --run_name bool200_filtered_sc \
   --sge_k 3
+```
 
-
-Outputs:
+Outputs a file:
 
 results/metrics/boolq_bool200_filtered_sc.json
 
-Compute metrics
+#To Compute metrics:
+```bash
 python -m src.compute_metrics --task boolq --run_name bool200_filtered_sc
-
+```
 
 Outputs:
-
 results/metrics/boolq_bool200_filtered_sc_metrics.json
 
-Difficulty analysis (easy vs hard)
+Difficulty analysis (easy vs hard):
+
 python -m src.difficulty_analysis
 
 Generate all plots for poster/report
@@ -87,10 +91,9 @@ python make_plots.py
 
 
 Plots saved to:
-
 results/figs/
 
-🧱 Repository Structure
+# Repository Structure
 SGE-vs-ZeroShot-CoT/
 │
 ├── README.md                # Main project README
@@ -112,20 +115,20 @@ SGE-vs-ZeroShot-CoT/
     ├── metrics/                       # Raw outputs + metric summaries
     └── figs/                          # All charts
 
-Method Diagram
+#Method Diagram
 <p align="center"> <img width="600" src="https://github.com/asrita14/SGE-vs-ZeroShot-CoT/assets/diagram-placeholder.png" alt="SGE Diagram (replace this with your final diagram)"> </p>
 
-SGE-Filtered Pipeline
+#SGE-Filtered Pipeline
 
 Task Description → Generate Synthetic Q/A → Score Examples → Keep Top-k → Build Few-shot Prompt → Predict Answer
 
-Key Results (Summary)
+#Key Results (Summary)
 Dataset	Best Method	Observation
 BoolQ	SGE-Filtered	Slightly > Zero-shot; CoT hurts performance.
 CSQA	Zero-shot	Strong priors already inside FLAN-T5.
 GSM8K	CoT-SC	Best stability; reduces error by 50%+.
 
-Reproducibility Checklist
+#Reproducibility Checklist
 
 ✔ Uses only HF datasets
 ✔ Single model class (FLAN-T5)
@@ -133,7 +136,7 @@ Reproducibility Checklist
 ✔ Metrics reproducible by one command
 ✔ Figures reproducible by one command
 
-Acknowledgements:
+#Acknowledgements:
 
 NYU DS-GA 1011 — Natural Language Processing
 
@@ -141,6 +144,6 @@ HuggingFace Transformers
 
 FLAN-T5 Instruction-Tuned Model
 
-📫 Contact
+# Contact
 
 For questions or issues, open a GitHub Issue.
