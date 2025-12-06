@@ -4,7 +4,7 @@
   <img src="https://img.shields.io/badge/Status-Complete-brightgreen?style=for-the-badge">
 </p>
 
-<h1 align="center">🤖 Self-Generated Examples vs Zero-shot and CoT Prompting</h1>
+<h1 align="center"> Self-Generated Examples vs Zero-shot and CoT Prompting</h1>
 
 <p align="center">
 A comparative study of prompting strategies across several reasoning benchmarks using FLAN-T5.
@@ -12,7 +12,7 @@ A comparative study of prompting strategies across several reasoning benchmarks 
 
 ---
 
-# 🌟 Overview
+#  Overview
 
 This project evaluates how different prompting strategies behave across reasoning tasks:
 
