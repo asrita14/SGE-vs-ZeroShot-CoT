@@ -1,0 +1,16 @@
+pattern	dataset	question_or_input	passage	choices	gold	zero_shot	few_shot	cot	cot_sc	cot_sir	sge
+zs_wrong_sir_right	commonsense_qa	Where would you find a single shower curtain being used?		"A) bathtub
+B) washing area
+C) hotel
+D) shower stall
+E) department store"	A	D	D	Shower stall is a place where a single shower curtain is being used. So, the answer is D.	Shower curtain is used in shower stall. Shower stall is a shower stall. Shower is a place. So, the answer is D.	Shower stalls are a place where a single shower curtain is being used. So, the answer is D.	D
+cot_wrong_sir_right	commonsense_qa	What would vinyl be an odd thing to replace?		"A) pants
+B) record albums
+C) record store
+D) cheese
+E) wallpaper"	E	E	E	Vinyl is a material that is used to make music. Music is made with a record player. Vinyl is a type of record player. So, the answer is B.	Vinyl is an unusual material for a record album. Record albums are made of metal and wood. Metal is a non-metal material. So, the answer is B.	E was an odd thing to replace. The answer is E.	E
+cot_wrong_sir_right	commonsense_qa	If you are awaking multiple times throughout the night because a lot is on your mind, what is a likely cause?		"A) irritability
+B) depression
+C) getting out of bed
+D) happiness
+E) discomfort"	B	B	B	A lot of things on your mind can cause you to wake up multiple times throughout the night. B is the most likely cause of awaking multiple times throughout the night. So, the answer is B.	Awakes at night are caused by having a lot of things on your mind. B is a likely cause. So, the answer is B.	B is the most likely cause of awaking multiple times throughout the night. So, the answer is B.	B
